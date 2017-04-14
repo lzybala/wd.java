@@ -19,6 +19,6 @@ public class Home {
 	public Object backToHome() throws Exception {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("sessionId", driver.getSessionId());
-		return utils.request("POST", DriverCommand.Home, jsonObject);
+		return utils.request("POST", DriverCommand.HOME, jsonObject);
 	}
 }
