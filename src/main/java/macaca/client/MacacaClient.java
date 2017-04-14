@@ -1006,7 +1006,6 @@ public class MacacaClient {
 	 * @return The currently instance of MacacaClient
 	 * @throws Exception
 	 */
-	@Deprecated
 	public MacacaClient sendKeys(String keys) throws Exception {
 		JSONObject jsonObject = new JSONObject();
 		ArrayList<String> values = new ArrayList<String>();
@@ -1024,7 +1023,6 @@ public class MacacaClient {
 	 * @return The currently instance of MacacaClient
 	 * @throws Exception
 	 */
-	@Deprecated
 	public MacacaClient click() throws Exception {
 		element.click();
 		return this;
@@ -1038,7 +1036,6 @@ public class MacacaClient {
 	 * @return The currently instance of MacacaClient
 	 * @throws Exception
 	 */
-	@Deprecated
 	public MacacaClient clear() throws Exception {
 		element.clearText();
 		return this;
@@ -1070,7 +1067,6 @@ public class MacacaClient {
 	 * @return The property
 	 * @throws Exception
 	 */
-	@Deprecated
 	public Object getProperty(String name) throws Exception {
 		return element.getProperty(name);
 	}
@@ -1083,7 +1079,6 @@ public class MacacaClient {
 	 * @return The rect of element
 	 * @throws Exception
 	 */
-	@Deprecated
 	public Object getRect() throws Exception {
 		return element.getRect();
 	}
@@ -1344,7 +1339,6 @@ public class MacacaClient {
 	 * @return The text of the element
 	 * @throws Exception
 	 */
-	@Deprecated
 	public String text() throws Exception {
 		return element.getText();
 	}
@@ -1516,6 +1510,5 @@ public class MacacaClient {
 
 		touch("drag", jsonObject);
 	}
-
 
 }
