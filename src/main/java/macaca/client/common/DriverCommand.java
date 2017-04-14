@@ -12,6 +12,9 @@ public class DriverCommand {
 
 	// timeout
 	public static final String IMPLICITLY_WAIT = SESSION + "/timeouts/implicit_wait";
+	
+	// backToHome
+	public static final String Home = "homescreen/:sessionId";
 
 	// screenshot
 	public static final String SCREENSHOT = SESSION + "/screenshot";

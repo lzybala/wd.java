@@ -23,6 +23,7 @@ public class MacacaClient {
 
 	public MacacaDriver contexts = new MacacaDriver();
 
+	private Home home = new Home(contexts);
 	private Alert alert = new Alert(contexts);
 	private Context context = new Context(contexts);
 	public  Element element = new Element(contexts); // TODO
@@ -64,6 +65,18 @@ public class MacacaClient {
 
 	public void setWaitElementTimeInterval(int waitElementTimeInterval) {
 		this.waitElementTimeInterval = waitElementTimeInterval;
+	}
+	
+	// Home
+	/**
+	 * <p>
+	 * back to home screen.<br>
+	 * Support: iOS
+	 * 
+	 * @throws Exception
+	 */
+	public void backToHome() throws Exception {
+		home.backToHome();
 	}
 
 	// Alert
