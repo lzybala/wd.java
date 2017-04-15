@@ -13,8 +13,11 @@ public class DriverCommand {
 	// timeout
 	public static final String IMPLICITLY_WAIT = SESSION + "/timeouts/implicit_wait";
 	
-	// backToHome
+	// homesreen
 	public static final String HOME = "homescreen/:sessionId";
+	
+	// deactivateApp
+	public static final String DEACTIVATEAPP = SESSION + "/wda/deactivateApp";
 
 	// screenshot
 	public static final String SCREENSHOT = SESSION + "/screenshot";
@@ -36,6 +39,8 @@ public class DriverCommand {
 	public static final String FIND_ELEMENTS = SESSION + "/elements";
 	public static final String ELEMENT_VALUE = SESSION + "/element/:elementId/value";
 	public static final String CLICK_ELEMENT = SESSION + "/element/:elementId/click";
+	public static final String SWIPE = SESSION + "/element/:elementId/swipe";
+	public static final String SCROLL = SESSION + "/element/:elementId/scroll";
 	public static final String GET_ELEMENT_TEXT = SESSION + "/element/:elementId/text";
 	public static final String IS_ELEMENT_DISPLAYED = SESSION + "/element/:elementId/displayed";
 	public static final String CLEAR_ELEMENT = SESSION + "/element/:elementId/clear";

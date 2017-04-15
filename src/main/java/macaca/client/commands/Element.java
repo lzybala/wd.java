@@ -1,6 +1,7 @@
 package macaca.client.commands;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -77,37 +78,70 @@ public class Element {
 	}
 
 
-//	/**
-//	 * find an element
-//	 * @param jsonObject
-//	 * @return
-//	 * 		true - the element exists
-//	 * 		false - the element does not exist
-//	 *
-//	 * @throws Exception
-//	 */
-//	public boolean findElement(JSONObject jsonObject) throws Exception {
-//		jsonObject.put("sessionId", driver.getSessionId());
-//		JSONObject response = (JSONObject) utils.request("POST", DriverCommand.FIND_ELEMENT, jsonObject);
-//		JSONObject element = (JSONObject) response.get("value");
-//		Object elementId = (Object) element.get("ELEMENT");
-//		if (elementId !=  null) {
-//			// the element exists
-//			driver.setElementId(elementId);
-//			return true;
-//		} else {
-//			// the element does not exist
-//			return false;
-//		}
-//
-//	}
-//
-//	public JSONArray findElements(JSONObject jsonObject) throws Exception {
-//		jsonObject.put("sessionId", driver.getSessionId());
-//		JSONObject response = (JSONObject) utils.request("POST", DriverCommand.FIND_ELEMENTS, jsonObject);
-//		JSONArray elements = (JSONArray) response.get("value");
-//		return elements;
-//	}
+	/**
+	 * find an element
+	 * @param jsonObject
+	 * @return
+	 * 		true - the element exists
+	 * 		false - the element does not exist
+	 *
+	 * @throws Exception
+	 */
+	public boolean findElement(JSONObject jsonObject) throws Exception {
+		jsonObject.put("sessionId", driver.getSessionId());
+		JSONObject response = (JSONObject) utils.request("POST", DriverCommand.FIND_ELEMENT, jsonObject);
+		JSONObject element = (JSONObject) response.get("value");
+		Object elementId = (Object) element.get("ELEMENT");
+		if (elementId !=  null) {
+			// the element exists
+			driver.setElementId(elementId);
+			return true;
+		} else {
+			// the element does not exist
+			return false;
+		}
+
+	}
+	
+	public JSONArray findElements(JSONObject jsonObject, String type) throws Exception {
+		jsonObject.put("sessionId", driver.getSessionId());
+		JSONObject response = (JSONObject) utils.request("POST", DriverCommand.FIND_ELEMENTS, jsonObject);
+		JSONArray elements = (JSONArray) response.get("value");
+		if(type == null)
+			return elements;
+		//添加处理
+		for(Iterator<Object> it=elements.iterator();it.hasNext();){
+			JSONObject jo= (JSONObject)it.next();
+			if(!jo.get("type").equals(type)){
+				it.remove();
+			}
+		}
+		return elements;
+	}
+	
+	public JSONArray findChildElements(JSONObject jsonObject) throws Exception {
+		return findChildElements(jsonObject, null);
+	}
+	
+	public JSONArray findChildElements(JSONObject jsonObject, String type) throws Exception {
+		jsonObject.put("sessionId", driver.getSessionId());
+		jsonObject.put("elementId", driver.getElementId());
+		JSONObject response = (JSONObject) utils.request("POST", DriverCommand.FIND_CHILD_ELEMENTS, jsonObject);
+		JSONArray elements = (JSONArray) response.get("value");
+		return elements;
+	}
+
+	public void swipe(JSONObject jsonObject) throws Exception {
+		jsonObject.put("sessionId", driver.getSessionId());
+		jsonObject.put("elementId", driver.getElementId());
+		utils.request("POST", DriverCommand.SWIPE, jsonObject);
+	}
+	
+	public void scroll(JSONObject jsonObject) throws Exception {
+		jsonObject.put("sessionId", driver.getSessionId());
+		jsonObject.put("elementId", driver.getElementId());
+		utils.request("POST", DriverCommand.SCROLL, jsonObject);
+	}
 
 	public String getText() throws Exception {
 		JSONObject jsonObject = new JSONObject();

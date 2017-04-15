@@ -24,6 +24,7 @@ public class MacacaClient {
 	public MacacaDriver contexts = new MacacaDriver();
 
 	private Home home = new Home(contexts);
+	private App app = new App(contexts);
 	private Alert alert = new Alert(contexts);
 	private Context context = new Context(contexts);
 	public  Element element = new Element(contexts); // TODO
@@ -760,6 +761,63 @@ public class MacacaClient {
 		jsonObject.put("value", tagName);
 		jsonObject.put("using", "tag name");
 		JSONArray jsonArray = findElements(jsonObject);
+		return new ElementSelector(contexts, this, jsonArray);
+	}
+	
+	/**
+	 * <p>
+	 * Search subElements on the page
+	 * root.<br> 
+	 * @return
+	 * @throws Exception
+	 */
+	public ElementSelector subElements() throws Exception {
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("uuid", contexts.getElementId());
+		JSONArray jsonArray = element.findChildElements(jsonObject);
+		return new ElementSelector(contexts, this, jsonArray);
+	}
+	
+	/**
+	 * <p>
+	 * Search subElements on the page
+	 * root.<br>
+	 * @param className
+	 * @return
+	 * @throws Exception
+	 */
+	public ElementSelector subElements(GetElementWay wayToFind, String value) throws Exception {
+		String using = "";
+		switch (wayToFind) {
+		case ID:
+			using = "id";
+			break;
+		case CSS:
+			using = "css";
+			break;
+		case NAME:
+			using = "name";
+			break;
+		case XPATH:
+			using = "xpath";
+			break;
+		case CLASS_NAME:
+			using = "class name";
+			break;
+		case LINK_TEXT:
+			using = "link text";
+			break;
+		case PARTIAL_LINK_TEXT:
+			using = "partial link text";
+			break;
+		case TAG_NAME:
+			using = "tag name";
+			break;
+		}
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("value", value);
+		jsonObject.put("using", using);
+		JSONArray jsonArray = element.findChildElements(jsonObject);
 		return new ElementSelector(contexts, this, jsonArray);
 	}
 
@@ -1511,4 +1569,57 @@ public class MacacaClient {
 		touch("drag", jsonObject);
 	}
 
+	/**
+	 * <p>Swipe on the touch screen using finger motion events.<br>
+   * Support: Android iOS
+	 *
+	 * @param startX
+	 *            The X coordinate to position the window at, relative to the
+	 *            upper left corner of the screen
+	 * @param startY
+	 *            The Y coordinate to position the window at, relative to the
+	 *            upper left corner of the screen
+	 * @param endX
+	 *            The X coordinate to position the window at, relative to the
+	 *            upper left corner of the screen
+	 * @param endY
+	 *            The Y coordinate to position the window at, relative to the
+	 *            upper left corner of the screen
+	 * @param duration
+	 *            The duration of the swipe operation
+	 * @return The currently instance of MacacaClient
+	 * @throws Exception
+	 */
+	public MacacaClient swipe(int startX, int startY, int endX, int endY, int duration) throws Exception {
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("startX", startX);
+		jsonObject.put("startY", startY);
+		jsonObject.put("endX", endX);
+		jsonObject.put("endY", endY);
+		jsonObject.put("duration", duration);
+		element.swipe(jsonObject);
+		return this;
+	}
+	
+	/**
+	 * sroll
+	 * @param name  
+	 * @param direction	{up, down, left, right}
+	 */
+	public MacacaClient sroll(String name, String direction) throws Exception{
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("name", name);
+		jsonObject.put("direction", direction);
+		element.scroll(jsonObject);
+		return this;
+	}
+	
+	// App
+	/**
+	 * deactivateApp
+	 * @throws Exception
+	 */
+	public void deactivateApp() throws Exception {
+		app.deactivateApp();
+	}
 }
