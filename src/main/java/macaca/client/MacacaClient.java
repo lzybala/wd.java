@@ -182,7 +182,6 @@ public class MacacaClient {
 	}
 
 	// Element
-
 	/**
 	 * find an element
 	 * @param jsonObject
@@ -767,57 +766,15 @@ public class MacacaClient {
 	/**
 	 * <p>
 	 * Search subElements on the page
-	 * root.<br> 
-	 * @return
-	 * @throws Exception
-	 */
-	public ElementSelector subElements() throws Exception {
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("uuid", contexts.getElementId());
-		JSONArray jsonArray = element.findChildElements(jsonObject);
-		return new ElementSelector(contexts, this, jsonArray);
-	}
-	
-	/**
-	 * <p>
-	 * Search subElements on the page
 	 * root.<br>
-	 * @param className
+	 * @param parentElement	
+	 * @param wayToFind
+	 * @param value
 	 * @return
 	 * @throws Exception
 	 */
-	public ElementSelector subElements(GetElementWay wayToFind, String value) throws Exception {
-		String using = "";
-		switch (wayToFind) {
-		case ID:
-			using = "id";
-			break;
-		case CSS:
-			using = "css";
-			break;
-		case NAME:
-			using = "name";
-			break;
-		case XPATH:
-			using = "xpath";
-			break;
-		case CLASS_NAME:
-			using = "class name";
-			break;
-		case LINK_TEXT:
-			using = "link text";
-			break;
-		case PARTIAL_LINK_TEXT:
-			using = "partial link text";
-			break;
-		case TAG_NAME:
-			using = "tag name";
-			break;
-		}
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("value", value);
-		jsonObject.put("using", using);
-		JSONArray jsonArray = element.findChildElements(jsonObject);
+	public ElementSelector findChildElements(Element parentElement, GetElementWay wayToFind, String value) throws Exception {
+		JSONArray jsonArray = parentElement.findChildElements(wayToFind, value);
 		return new ElementSelector(contexts, this, jsonArray);
 	}
 
@@ -1590,7 +1547,7 @@ public class MacacaClient {
 	 * @return The currently instance of MacacaClient
 	 * @throws Exception
 	 */
-	public MacacaClient swipe(int startX, int startY, int endX, int endY, int duration) throws Exception {
+	public MacacaClient swipe(double startX, double startY, double endX, double endY, double duration) throws Exception {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("startX", startX);
 		jsonObject.put("startY", startY);
@@ -1601,25 +1558,25 @@ public class MacacaClient {
 		return this;
 	}
 	
-	/**
-	 * sroll
-	 * @param name  
-	 * @param direction	{up, down, left, right}
-	 */
-	public MacacaClient sroll(String name, String direction) throws Exception{
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("name", name);
-		jsonObject.put("direction", direction);
-		element.scroll(jsonObject);
-		return this;
-	}
-	
-	// App
-	/**
-	 * deactivateApp
-	 * @throws Exception
-	 */
-	public void deactivateApp() throws Exception {
-		app.deactivateApp();
-	}
+//	/**
+//	 * scroll
+//	 * @param name  
+//	 * @param direction	{up, down, left, right}
+//	 */
+//	public MacacaClient scroll(String name, String direction) throws Exception{
+//		JSONObject jsonObject = new JSONObject();
+//		jsonObject.put("name", name);
+//		jsonObject.put("direction", direction);
+//		element.scroll(jsonObject);
+//		return this;
+//	}
+//	
+//	// App
+//	/**
+//	 * deactivateApp
+//	 * @throws Exception
+//	 */
+//	public void deactivateApp() throws Exception {
+//		app.deactivateApp();
+//	}
 }

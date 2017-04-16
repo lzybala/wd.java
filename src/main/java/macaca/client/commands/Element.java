@@ -1,12 +1,14 @@
 package macaca.client.commands;
 
 import java.util.ArrayList;
+
 import java.util.Iterator;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import macaca.client.common.DriverCommand;
+import macaca.client.common.GetElementWay;
 import macaca.client.common.MacacaDriver;
 import macaca.client.common.Utils;
 
@@ -100,7 +102,6 @@ public class Element {
 			// the element does not exist
 			return false;
 		}
-
 	}
 	
 	public JSONArray findElements(JSONObject jsonObject, String type) throws Exception {
@@ -119,13 +120,51 @@ public class Element {
 		return elements;
 	}
 	
-	public JSONArray findChildElements(JSONObject jsonObject) throws Exception {
-		return findChildElements(jsonObject, null);
+	public JSONArray findElements(JSONObject jsonObject) throws Exception {
+		return findElements(jsonObject, null);
 	}
 	
-	public JSONArray findChildElements(JSONObject jsonObject, String type) throws Exception {
+	public JSONArray findChildElements(JSONObject jsonObject) throws Exception {
 		jsonObject.put("sessionId", driver.getSessionId());
 		jsonObject.put("elementId", driver.getElementId());
+		JSONObject response = (JSONObject) utils.request("POST", DriverCommand.FIND_CHILD_ELEMENTS, jsonObject);
+		JSONArray elements = (JSONArray) response.get("value");
+		return elements;
+	}
+	
+	public JSONArray findChildElements(GetElementWay wayToFind, String value) throws Exception{
+		String using = "name";
+		switch (wayToFind) {
+		case ID:
+			using = "id";
+			break;
+		case CSS:
+			using = "css";
+			break;
+		case NAME:
+			using = "name";
+			break;
+		case XPATH:
+			using = "xpath";
+			break;
+		case CLASS_NAME:
+			using = "class name";
+			break;
+		case LINK_TEXT:
+			using = "link text";
+			break;
+		case PARTIAL_LINK_TEXT:
+			using = "partial link text";
+			break;
+		case TAG_NAME:
+			using = "tag name";
+			break;
+		}
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("sessionId", driver.getSessionId());
+		jsonObject.put("elementId", driver.getElementId());
+		jsonObject.put("using", using);
+		jsonObject.put("value", value);
 		JSONObject response = (JSONObject) utils.request("POST", DriverCommand.FIND_CHILD_ELEMENTS, jsonObject);
 		JSONArray elements = (JSONArray) response.get("value");
 		return elements;
