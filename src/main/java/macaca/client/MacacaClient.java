@@ -92,6 +92,7 @@ public class MacacaClient {
 	 */
 	public MacacaClient acceptAlert() throws Exception {
 		alert.acceptAlert();
+		sleep(1000);
 		return this;
 	}
 
@@ -105,6 +106,7 @@ public class MacacaClient {
 	 */
 	public MacacaClient dismissAlert() throws Exception {
 		alert.dismissAlert();
+		sleep(1000);
 		return this;
 	}
 
