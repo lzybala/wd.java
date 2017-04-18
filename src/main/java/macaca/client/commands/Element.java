@@ -2,6 +2,7 @@ package macaca.client.commands;
 
 import java.util.ArrayList;
 
+
 import java.util.Iterator;
 
 import com.alibaba.fastjson.JSONArray;
@@ -125,10 +126,23 @@ public class Element {
 	}
 	
 	public JSONArray findChildElements(JSONObject jsonObject) throws Exception {
+		return findChildElements(jsonObject, null);
+	}
+	
+	public JSONArray findChildElements(JSONObject jsonObject, String type) throws Exception {
 		jsonObject.put("sessionId", driver.getSessionId());
-		jsonObject.put("elementId", driver.getElementId());
-		JSONObject response = (JSONObject) utils.request("POST", DriverCommand.FIND_CHILD_ELEMENTS, jsonObject);
-		JSONArray elements = (JSONArray) response.get("value");
+  		jsonObject.put("elementId", driver.getElementId());
+  		JSONObject response = (JSONObject) utils.request("POST", DriverCommand.FIND_CHILD_ELEMENTS, jsonObject);
+  		JSONArray elements = (JSONArray) response.get("value");
+  		if(type == null)
+			return elements;
+		//添加处理
+		for(Iterator<Object> it=elements.iterator();it.hasNext();){
+			JSONObject jo= (JSONObject)it.next();
+			if(!jo.get("type").equals(type)){
+				it.remove();
+			}
+		}
 		return elements;
 	}
 	

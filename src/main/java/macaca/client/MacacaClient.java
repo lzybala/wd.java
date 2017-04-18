@@ -92,7 +92,7 @@ public class MacacaClient {
 	 */
 	public MacacaClient acceptAlert() throws Exception {
 		alert.acceptAlert();
-		sleep(1000);
+		sleep(2000);
 		return this;
 	}
 
@@ -106,7 +106,7 @@ public class MacacaClient {
 	 */
 	public MacacaClient dismissAlert() throws Exception {
 		alert.dismissAlert();
-		sleep(1000);
+		sleep(2000);
 		return this;
 	}
 
@@ -766,19 +766,47 @@ public class MacacaClient {
 	}
 	
 	/**
-	 * <p>
-	 * Search subElements on the page
-	 * root.<br>
-	 * @param parentElement	
-	 * @param wayToFind
-	 * @param value
-	 * @return
-	 * @throws Exception
-	 */
-	public ElementSelector findChildElements(Element parentElement, GetElementWay wayToFind, String value) throws Exception {
-		JSONArray jsonArray = parentElement.findChildElements(wayToFind, value);
-		return new ElementSelector(contexts, this, jsonArray);
-	}
+  	 * <p>
+  	 * Search subElements on the page
+	 * root.<br> 
+ 	 * @return
+ 	 * @throws Exception
+ 	 */
+ 	public ElementSelector subElements() throws Exception {
+ 		JSONObject jsonObject = new JSONObject();
+ 		jsonObject.put("uuid", contexts.getElementId());
+ 		JSONArray jsonArray = element.findChildElements(jsonObject);
+ 		return new ElementSelector(contexts, this, jsonArray);
+ 	}
+ 	
+ 	/**
+  	 * <p>
+  	 * Search subElements on the page
+	 * root.<br> 
+ 	 * @param type
+ 	 * @return
+ 	 * @throws Exception
+ 	 */
+ 	public ElementSelector subElements(String type) throws Exception {
+ 		JSONObject jsonObject = new JSONObject();
+ 		jsonObject.put("uuid", contexts.getElementId());
+ 		JSONArray jsonArray = element.findChildElements(jsonObject, type);
+ 		return new ElementSelector(contexts, this, jsonArray);
+ 	}
+ 
+ 	/**
+ 	 * <p>
+ 	 * Search subElements on the page
+ 	 * root.<br>
+ 	 * @param wayToFind
+ 	 * @param value
+ 	 * @return
+ 	 * @throws Exception
+ 	 */
+ 	 public ElementSelector subElements(GetElementWay wayToFind, String value) throws Exception {
+ 		JSONArray jsonArray = element.findChildElements(wayToFind, value);
+ 		return new ElementSelector(contexts, this, jsonArray);
+ 	 }
 
 	/**
 	 * <p>
