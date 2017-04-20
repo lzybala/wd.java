@@ -54,7 +54,7 @@ public class Utils {
 
 	private void printRequest(String stringRequest) throws Exception {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-		System.out.println(df.format(new java.util.Date()) + " Request:" + stringRequest);
+//		System.out.println(df.format(new java.util.Date()) + " Request:" + stringRequest);
 	}
 
 	public Object getRequest(String method, JSONObject jsonBody) throws Exception {
